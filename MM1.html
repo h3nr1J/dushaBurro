@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teoria de Colas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand">
+        <img src="https://lcd.exactas.uba.ar/wp-content/uploads/2020/08/icono-lcd-2-ciclo.png" alt="Logo" width="30"
+          height="24" class="d-inline-block align-text-top">
+        Investigacion operativa
+      </a>
+      <a class="navbar-brand" href="MM1.html"><strong>MM1</strong></a>
+      <a class="navbar-brand" href="MMc.html">MMC</a>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+  <br>
+  <br>
+  <form name="f1" action="MM1.html" method="POST">
+    <div class="container text-center">
+      <div class="form-floating mb-3">
+        <input type="number" name="lambda" class="form-control" id="a">
+        <label for="floatingInput">Ingresar Lambda(u)</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="number" name="mu" class="form-control" id="b">
+        <label for="floatingPassword">Ingresar Mu(u)</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="number" name="cliente" class="form-control" id="c">
+        <label for="floatingPassword">N° Clientes</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="button" class="btn btn-secondary" value="Calcular" onClick="calcular()"><i
+          class="bi bi-calculator"></i>
+      </div>
+      
+      <label for="">Longitud Promedio de la Linea(lq)</label>
+      <input type="text" disabled  class="form-control" id="r" name="lq" placeholder="Resultado Lq">
+
+      <label for="">Tiempo de espera promedio en la linea(Wq)</label>
+      <input type="text" disabled  class="form-control" id="r1" name="wq" placeholder="Resultado Wq">
+
+      <label for="">Utilización del la instalación(U)</label>
+      <input type="text" disabled  class="form-control" id="r2" name="u" placeholder="Resultado U">
+
+      <label for="">Longitud promedio del sistema(Ls)</label>
+      <input type="text" disabled  class="form-control" id="r3" name="ls" placeholder="Resultado ls">
+      
+      <label for="">Tiempo de espera promedio en el sistema(Ws)</label>
+      <input type="text" disabled  class="form-control" id="r3" name="ws" placeholder="Resultado Ws">
+
+
+      <label for="">Probabilidad de que el número en el sistema exceda a n (P(ls > n))</label>
+      <input type="text" disabled  class="form-control" id="r4" name="p" placeholder="Resultado P(ls > n)">
+
+      <label for="">Probabilidad de que el sistmea este desocupado(Po)</label>
+      <input type="text" disabled  class="form-control" id="r5" name="p0" placeholder="Resultado Po">
+      
+      <label for="">Probabilidad de que haya n personas en el sistema(Pn)</label>
+      <input type="text" disabled  class="form-control" id="r6" name="pn" placeholder="Resultado Pn">
+
+    </div>
+    </div>
+
+    <div class="container-fluid"></div>
+  </form>
+  <script>
+    function calcular() {
+        var lambda,mu,resultado,clientes
+        var lq,wq,ls,ws,p,p0,pn,u
+
+        lambda = Number(document.f1.lambda.value)
+        mu = Number(document.f1.mu.value)
+        clientes = Number(document.f1.cliente.value)
+
+        // Operaciones de la fila 
+        u = (lambda / mu)
+        // Porcentaje 
+        auxU =  porcentaje(lambda / mu)
+        auxP0 = porcentaje((1 - u).toFixed(1))
+        
+
+
+        lq = ((lambda * lambda)/(mu * (mu-lambda))).toFixed(3)
+        wq = ((lambda)/(mu * (mu-lambda))).toFixed(3)
+        ls = ((lambda)/(mu-lambda)).toFixed(3)
+        ws = (1 / (mu - lambda)).toFixed(3)
+        p = porcentaje((Math.pow((lambda)/(mu),clientes + 1)).toFixed(2))
+        p0 = (1 - u).toFixed(3)
+        pn = (p0 * Math.pow(u,clientes)).toFixed(3)
+
+        // Mostramos los resultados
+        document.f1.lq.value = lq
+        document.f1.wq.value = wq
+        document.f1.u.value = auxU 
+        document.f1.ls.value = ls
+        document.f1.ws.value = ws
+        document.f1.p.value = p
+        document.f1.p0.value = auxP0
+        document.f1.pn.value = pn
+
+      }
+      function porcentaje(n){
+			var porcentaje = Number(n*100);
+			porcentaje+="%";
+			return porcentaje;
+		}
+  </script>
+  
+</body>
+
+</html>
